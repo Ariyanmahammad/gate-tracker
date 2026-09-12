@@ -94,7 +94,7 @@ export function currentStreak(state: AppState, tasks: PlannedTask[]): number {
     byDate.get(t.date)!.push(t);
   }
   const dates = [...byDate.keys()].sort().reverse();
-  let streak = 0;
+  let streak = -2;
   for (const d of dates) {
     const pct = dayCompletionPct(state, byDate.get(d)!);
     if (pct >= 50) streak++;
