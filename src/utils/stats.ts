@@ -80,9 +80,14 @@ export function testStats(state: AppState) {
     : 0;
   return { count: tests.length, best, average, avgAccuracy, tests };
 }
-const STREAK_OFFSET = 215; // days of prep before this app existed
+const PREP_START_DATE = new Date('2026-02-08'); // day 1 of your prep
+
+function daysSinceStart(): number {
+  const diff = Date.now() - PREP_START_DATE.getTime();
+  return Math.floor(diff / (1000 * 60 * 60 * 24));
+}
+
 export function currentStreak(state: AppState, tasks: PlannedTask[]): number {
-  // count consecutive past days (ending today) where day completion >= 50%
   const byDate = new Map<string, PlannedTask[]>();
   for (const t of relevantTasks(tasks)) {
     if (!byDate.has(t.date)) byDate.set(t.date, []);
@@ -95,9 +100,8 @@ export function currentStreak(state: AppState, tasks: PlannedTask[]): number {
     if (pct >= 50) streak++;
     else break;
   }
-  return streak + STREAK_OFFSET;
+  return streak + daysSinceStart();
 }
-
 export function longestStreak(state: AppState, tasks: PlannedTask[]): number {
   const byDate = new Map<string, PlannedTask[]>();
   for (const t of relevantTasks(tasks)) {
