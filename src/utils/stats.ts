@@ -60,7 +60,7 @@ export function testStats(state: AppState) {
   const avgAccuracy = accs.length ? Math.round(accs.reduce((a, b) => a + b, 0) / accs.length) : 0;
   return { count: tests.length, best, average, avgAccuracy, tests };
 }
-
+const STREAK_OFFSET = 216; // days of prep before this app existed
 export function currentStreak(state: AppState, tasks: PlannedTask[]): number {
   // count consecutive past days (ending today) where day completion >= 50%
   const byDate = new Map<string, PlannedTask[]>();
@@ -75,7 +75,7 @@ export function currentStreak(state: AppState, tasks: PlannedTask[]): number {
     if (pct >= 50) streak++;
     else break;
   }
-  return streak;
+  return streak + STREAK_OFFSET;
 }
 
 export function longestStreak(state: AppState, tasks: PlannedTask[]): number {
