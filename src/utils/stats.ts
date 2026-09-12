@@ -1,6 +1,5 @@
 import type { AppState, PlannedTask } from "../types";
 import { getCompletionPct, todayISO } from "./tasks";
-
 export function isPastOrToday(date: string): boolean {
   return date <= todayISO();
 }
@@ -35,6 +34,13 @@ export function overallCompletionPct(
 export function isSubmitted(state: AppState, taskId: string): boolean {
   const p = state.progress[taskId];
   return !!p && p.status !== "not_started";
+}
+
+export function todayStudyMinutes(state: AppState, tasks: PlannedTask[]): number {
+  const today = todayISO();
+  return tasks
+    .filter((t) => t.date === today)
+    .reduce((sum, t) => sum + (state.progress[t.id]?.actualStudyMinutes || 0), 0);
 }
 
 export function totalStudyMinutes(state: AppState): number {

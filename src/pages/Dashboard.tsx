@@ -6,6 +6,7 @@ import {
   overallCompletionPct,
   dayCompletionPct,
   currentStreak,
+  todayStudyMinutes,
   totalStudyMinutes,
   totalPYQs,
   testStats,
@@ -41,7 +42,7 @@ export default function Dashboard() {
   const overall = overallCompletionPct(state, tasks);
   const todayPct = dayCompletionPct(state, todayTasks);
   const streak = currentStreak(state, tasks);
-  const minutes = totalStudyMinutes(state);
+  const minutes = todayStudyMinutes(state,tasks);
   const pyqs = totalPYQs(state);
   const tests = testStats(state);
 
