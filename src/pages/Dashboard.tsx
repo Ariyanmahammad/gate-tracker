@@ -55,7 +55,7 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/40">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-sky-50 to-violet-100/70">
       <div className="mx-auto max-w-7xl space-y-7 px-4 py-6 sm:px-6 md:py-8 lg:px-8">
 
         {/* Header */}
@@ -68,11 +68,11 @@ export default function Dashboard() {
               </span>
             </div>
 
-            <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+            <h1 className="bg-gradient-to-r from-indigo-700 via-violet-700 to-fuchsia-600 bg-clip-text text-3xl font-bold tracking-tight text-transparent md:text-4xl">
               Dashboard
             </h1>
 
-            <p className="mt-1 text-sm text-slate-500">
+            <p className="mt-1 text-sm font-medium text-slate-500">
               {dateLabel}
             </p>
           </div>
@@ -100,29 +100,29 @@ export default function Dashboard() {
         <section className="grid gap-5 lg:grid-cols-[1.35fr_.65fr]">
 
           {/* Overall */}
-          <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md md:p-7">
-            <div className="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-indigo-100/70 blur-2xl" />
-            <div className="absolute -bottom-20 right-20 h-32 w-32 rounded-full bg-violet-100/50 blur-2xl" />
+          <div className="relative overflow-hidden relative overflow-hidden rounded-3xl border border-indigo-200/70 bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 p-6 text-white shadow-xl shadow-indigo-200/60 transition hover:-translate-y-0.5 hover:shadow-2xl md:p-7">
+            <div className="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute -bottom-20 left-1/3 h-40 w-40 rounded-full bg-cyan-300/10 blur-3xl" />
 
             <div className="relative">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-indigo-500">
+                  <p className="text-xs font-bold uppercase tracking-[0.16em] text-indigo-100">
                     Overall progress
                   </p>
 
                   <div className="mt-2 flex items-baseline gap-2">
-                    <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-5xl font-bold tracking-tight text-transparent md:text-6xl">
+                    <span className="bg-gradient-to-r from-white via-cyan-100 to-fuchsia-100 bg-clip-text text-5xl font-bold tracking-tight text-transparent md:text-6xl">
                       {overall}%
                     </span>
 
-                    <span className="text-sm font-medium text-slate-400">
+                    <span className="text-sm font-medium text-indigo-100">
                       completed
                     </span>
                   </div>
                 </div>
 
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white shadow-lg shadow-indigo-200">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-white shadow-lg shadow-indigo-950/20 ring-1 ring-white/20 backdrop-blur-sm">
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
@@ -135,14 +135,14 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="mt-7 h-3 overflow-hidden rounded-full bg-slate-100">
+              <div className="mt-7 h-3 overflow-hidden rounded-full bg-white/20">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-500 shadow-sm transition-all duration-700"
+                  className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-white to-fuchsia-200 shadow-lg transition-all duration-700"
                   style={{ width: `${Math.min(overall, 100)}%` }}
                 />
               </div>
 
-              <div className="mt-2 flex justify-between text-[11px] font-medium text-slate-400">
+              <div className="mt-2 flex justify-between text-[11px] font-semibold text-indigo-100">
                 <span>GATE preparation</span>
                 <span>{overall}%</span>
               </div>
@@ -150,12 +150,12 @@ export default function Dashboard() {
           </div>
 
           {/* Today's progress */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-indigo-950 to-violet-950 p-6 text-white shadow-xl shadow-indigo-100 md:p-7">
-            <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-indigo-500/20 blur-3xl" />
-            <div className="absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-violet-500/20 blur-3xl" />
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-cyan-600 via-blue-700 to-indigo-800 p-6 text-white shadow-xl shadow-indigo-100 md:p-7">
+            <div className="absolute -right-16 -top-16 h-44 w-44 rounded-full bg-cyan-300/20 blur-3xl" />
+            <div className="absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-fuchsia-300/20 blur-3xl" />
 
             <div className="relative">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-indigo-300">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-100">
                 Today's progress
               </p>
 
@@ -167,14 +167,14 @@ export default function Dashboard() {
                     {todayPct}%
                   </p>
 
-                  <p className="mt-1 text-sm text-slate-300">
+                  <p className="mt-1 text-sm text-blue-100">
                     {todayTasks.length} planned task
                     {todayTasks.length === 1 ? '' : 's'}
                   </p>
                 </div>
               </div>
 
-              <div className="mt-6 flex items-center gap-2 text-xs text-indigo-200">
+              <div className="mt-6 flex items-center gap-2 text-xs text-cyan-100">
                 <span className="h-2 w-2 rounded-full bg-emerald-400" />
                 Keep today's momentum going
               </div>
@@ -314,7 +314,7 @@ export default function Dashboard() {
           )}
 
           {todayTasks.length === 0 && (
-            <div className="rounded-3xl border border-dashed border-slate-300 bg-white p-12 text-center shadow-sm">
+            <div className="rounded-3xl border border-dashed border-indigo-200 bg-gradient-to-br from-white via-indigo-50 to-violet-50 p-12 text-center shadow-lg shadow-indigo-100/50">
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-indigo-50 text-xl text-indigo-500">
                 □
               </div>
@@ -372,11 +372,11 @@ export default function Dashboard() {
               </Link>
             </div>
 
-            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+            <div className="overflow-hidden rounded-3xl border border-rose-200/70 bg-gradient-to-br from-white via-rose-50/80 to-orange-50/80 shadow-lg shadow-rose-100/60">
               {recentMistakes.map((error, index) => (
                 <div
                   key={error.id}
-                  className={`p-4 transition hover:bg-rose-50/30 ${
+                  className={`p-4 transition hover:bg-rose-100/60 ${
                     index !== recentMistakes.length - 1
                       ? 'border-b border-slate-100'
                       : ''
@@ -434,7 +434,7 @@ function MetricCard({
 }) {
   return (
     <div
-      className={`rounded-2xl border border-slate-200 bg-gradient-to-br ${gradient} p-4 shadow-sm transition duration-200 hover:-translate-y-1 hover:shadow-lg`}
+      className={`rounded-2xl border border-white/60 bg-gradient-to-br ${gradient} p-4 shadow-lg shadow-slate-200/60 transition duration-200 hover:-translate-y-1 hover:shadow-xl`}
     >
       <div className="flex items-start justify-between">
         <p className="text-[10px] font-bold uppercase tracking-wide text-slate-500">
@@ -442,7 +442,7 @@ function MetricCard({
         </p>
 
         <span
-          className={`flex h-8 w-8 items-center justify-center rounded-xl ${iconBg} text-sm font-bold text-slate-700`}
+          className={`flex h-8 w-8 items-center justify-center rounded-xl ${iconBg} text-sm font-bold text-slate-800 shadow-sm ring-1 ring-black/5`}
         >
           {icon}
         </span>
@@ -511,7 +511,7 @@ function QuickAction({
   return (
     <Link
       to={to}
-      className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white px-3.5 py-3.5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
+      className="group flex items-center gap-3 rounded-2xl border border-white/70 bg-gradient-to-br from-white/90 to-indigo-50/90 px-3.5 py-3.5 shadow-lg shadow-indigo-100/50 transition duration-200 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl"
     >
       <span
         className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${c.bg} ${c.text} text-sm font-bold transition ${c.hover}`}
@@ -578,7 +578,15 @@ function TaskSection({
         </div>
       </div>
 
-      <div className="space-y-2.5">
+      <div className={`space-y-2.5 rounded-3xl p-2.5 ${
+        accent === "morning"
+          ? "bg-gradient-to-br from-emerald-50/80 to-cyan-50/70"
+          : accent === "night"
+            ? "bg-gradient-to-br from-indigo-50/90 to-violet-50/80"
+            : accent === "other"
+              ? "bg-gradient-to-br from-amber-50/90 to-orange-50/70"
+              : "bg-gradient-to-br from-rose-50/90 to-orange-50/70"
+      }`}>
         {children}
       </div>
     </section>

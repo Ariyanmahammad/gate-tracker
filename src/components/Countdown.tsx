@@ -5,7 +5,7 @@ export default function Countdown() {
   const [t, setT] = useState(daysUntilExam());
 
   useEffect(() => {
-    const id = setInterval(() => setT(daysUntilExam()), 60_000);
+    const id = setInterval(() => setT(daysUntilExam()), 1_000);
     return () => clearInterval(id);
   }, []);
 
@@ -19,6 +19,7 @@ export default function Countdown() {
         <TimeBlock value={t.days} label="days" />
         <TimeBlock value={t.hours} label="hrs" />
         <TimeBlock value={t.minutes} label="min" />
+        <TimeBlock value={t.seconds} label="sec" />
       </div>
     </div>
   );
