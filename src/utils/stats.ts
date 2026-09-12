@@ -80,7 +80,7 @@ export function testStats(state: AppState) {
     : 0;
   return { count: tests.length, best, average, avgAccuracy, tests };
 }
-const PREP_START_DATE = new Date('2026-02-08'); // day 1 of your prep
+const PREP_START_DATE = new Date('2026-02-09'); // day 1 of your prep
 
 function daysSinceStart(): number {
   const diff = Date.now() - PREP_START_DATE.getTime();
