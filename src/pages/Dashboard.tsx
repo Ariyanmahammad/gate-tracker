@@ -1,13 +1,14 @@
-import { useMemo } from "react";
+// Dashboard.tsx — only the changed parts shown, rest of your file is unchanged
+
+import { useMemo, useState, useEffect } from "react"; // added useState, useEffect
 import { Link } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import { getTasksForDate, todayISO } from "../utils/tasks";
 import {
   overallCompletionPct,
   dayCompletionPct,
-  currentStreak,
+  prepStreak,          // was currentStreak
   todayStudyMinutes,
-  totalStudyMinutes,
   totalPYQs,
   testStats,
   formatMinutes,
@@ -20,29 +21,26 @@ import { getDailyQuote } from "../utils/quote";
 export default function Dashboard() {
   const { state, tasks } = useData();
 
+  // force a re-render once a minute so today's date, streak, and study time
+  // roll over on their own at midnight without needing a click/refresh
+  const [, tick] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => tick((n) => n + 1), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
   const today = todayISO();
 
-  const todayTasks = useMemo(
-    () => getTasksForDate(tasks, today),
-    [tasks, today],
-  );
+  const todayTasks = useMemo(() => getTasksForDate(tasks, today), [tasks, today]);
 
-  const daySessions = todayTasks.filter(
-    (t) => t.session === "Day" || t.session === "Morning",
-  );
-
-  const nightSessions = todayTasks.filter(
-    (t) => t.session === "Night" || t.session === "Night/Analysis",
-  );
-
-  const otherSessions = todayTasks.filter(
-    (t) => !daySessions.includes(t) && !nightSessions.includes(t),
-  );
+  const daySessions = todayTasks.filter((t) => t.session === "Day" || t.session === "Morning");
+  const nightSessions = todayTasks.filter((t) => t.session === "Night" || t.session === "Night/Analysis");
+  const otherSessions = todayTasks.filter((t) => !daySessions.includes(t) && !nightSessions.includes(t));
 
   const overall = overallCompletionPct(state, tasks);
   const todayPct = dayCompletionPct(state, todayTasks);
-  const streak = currentStreak(state, tasks);
-  const minutes = todayStudyMinutes(state,tasks);
+  const streak = prepStreak();                     // was currentStreak(state, tasks)
+  const minutes = todayStudyMinutes(state, tasks);
   const pyqs = totalPYQs(state);
   const tests = testStats(state);
 
@@ -50,12 +48,11 @@ export default function Dashboard() {
   const recentMistakes = state.errorLog.slice(0, 3);
 
   const dateLabel = new Date().toLocaleDateString(undefined, {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
+    weekday: "long", year: "numeric", month: "long", day: "numeric",
   });
   const quote = getDailyQuote();
+
+  // ...rest of your JSX is unchanged — no other edits needed below this line
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-sky-50 to-violet-100/70">

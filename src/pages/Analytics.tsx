@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useData } from '../context/DataContext';
 import {
-  overallCompletionPct, totalStudyMinutes, totalPYQs, testStats, currentStreak,
+  overallCompletionPct, totalStudyMinutes, totalPYQs, testStats, prepStreak,
   longestStreak, missedTasks, dayCompletionPct, formatMinutes, relevantTasks,
 } from '../utils/stats';
 import { subjectStats } from '../utils/stats';
@@ -16,7 +16,7 @@ export default function Analytics() {
   const minutes = totalStudyMinutes(state);
   const pyqs = totalPYQs(state);
   const tests = testStats(state);
-  const streak = currentStreak(state, tasks);
+  const streak = prepStreak();
   const longest = longestStreak(state, tasks);
   const missed = missedTasks(state, tasks);
   const partialCount = Object.values(state.progress).filter((p) => p.status === 'partial').length;
