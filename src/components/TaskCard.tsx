@@ -36,7 +36,7 @@ export default function TaskCard({ task, showDate }: { task: PlannedTask; showDa
   }
 
   return (
-    <div className="rounded-2xl border border-white bg-white/90 backdrop-blur-sm p-4 shadow-md shadow-indigo-100/40 hover:shadow-lg transition">
+   <div className="rounded-2xl border border-white bg-white/90 p-4 shadow-md shadow-indigo-100/40 hover:shadow-lg transition">
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className="text-[11px] uppercase tracking-wide text-indigo-500 font-bold flex items-center gap-1.5">
