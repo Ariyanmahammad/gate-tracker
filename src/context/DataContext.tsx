@@ -14,6 +14,7 @@ interface DataContextValue {
   addCustomTask: (task: PlannedTask) => void;
   editTask: (taskId: string, patch: Partial<PlannedTask>) => void;
   deleteTask: (taskId: string) => void;
+  setRevisionNote: (subjectKey: string, content: string) => void;
   replaceState: (newState: AppState) => void;
   resetAllData: () => void;
 }
@@ -58,6 +59,8 @@ export function DataProvider({ children }: { children: ReactNode }) {
       }),
     deleteTask: (taskId) =>
       setState((s) => ({ ...s, deletedTaskIds: [...s.deletedTaskIds, taskId] })),
+    setRevisionNote: (subjectKey, content) =>
+      setState((s) => ({ ...s, revisionNotes: { ...s.revisionNotes, [subjectKey]: content } })),
     replaceState: (newState) => setState(newState),
     resetAllData: () => {
       if (confirm('This will permanently erase all your submitted progress, error log entries, and schedule edits. Continue?')) {

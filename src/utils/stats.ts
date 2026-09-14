@@ -1,5 +1,3 @@
-// stats.ts
-
 import type { AppState, PlannedTask } from "../types";
 import { getCompletionPct, todayISO } from "./tasks";
 
@@ -67,18 +65,18 @@ export function testStats(state: AppState) {
   return { count: tests.length, best, average, avgAccuracy, tests };
 }
 
-// --- Streak based purely on calendar days since prep started, no task dependency ---
-const PREP_START_DATE = new Date(2026, 1, 9); // 9 Feb 2026 (month is 0-indexed: 1 = Feb)
+// --- Streak based purely on calendar days since prep started (9 Feb 2026), no task dependency ---
+const PREP_START_DATE = new Date(2026, 1, 9); // month is 0-indexed: 1 = Feb
 
 export function prepStreak(): number {
   const now = new Date();
   const start = new Date(PREP_START_DATE.getFullYear(), PREP_START_DATE.getMonth(), PREP_START_DATE.getDate());
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const diffDays = Math.round((today.getTime() - start.getTime()) / 86_400_000);
-  return diffDays + 1; // 9 Feb itself counts as day 1
+  return diffDays + 1;
 }
 
-// Kept for other pages (e.g. Analytics) that may still want a completion-based streak.
+// Kept for anywhere that wants a completion-based (not calendar-based) streak.
 export function currentStreak(state: AppState, tasks: PlannedTask[]): number {
   const byDate = new Map<string, PlannedTask[]>();
   for (const t of relevantTasks(tasks)) {
@@ -152,7 +150,7 @@ export function formatMinutes(min: number): string {
 }
 
 export function daysUntilExam(): { days: number; hours: number; minutes: number; seconds: number } {
-  const exam = new Date("2027-02-07T00:00:00"); // midnight, not 9 AM
+  const exam = new Date("2027-02-07T00:00:00");
   const now = new Date();
   const diff = Math.max(0, exam.getTime() - now.getTime());
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));

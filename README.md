@@ -84,7 +84,26 @@ environment configuration needed for any of these.
 
 ## Known simplifications from the original spec
 - Used plain Tailwind components instead of a shadcn/ui install, to keep the
-  project dependency-light - visuals follow the same clean/academic brief.
+  project dependency-light - the UI uses a colorful gradient design system
+  instead (indigo/violet/fuchsia palette).
 - Storage is localStorage only (as the spec allowed for v1); the data
   layer (src/utils/tasks.ts, src/types.ts) is structured so swapping in a
   real backend/IndexedDB later doesn't require touching page components.
+
+## Quick Revision feature
+
+The Revision page (src/pages/Revision.tsx) has a 2-page-ish formula/concept
+sheet for each core GATE CSE subject, written into
+src/data/revisionContent.ts as structured sections + bullets (not prose, so
+it stays skimmable). Each subject card lets you:
+- Preview the content inline.
+- Add your own notes in a textarea (saved to localStorage per subject via
+  setRevisionNote in DataContext, so it survives refreshes).
+- Download that subject's PDF (content + your added notes appended under
+  "My Additional Notes") — generated client-side with jsPDF, no server
+  involved. There's also a "Download All Subjects" button that bundles
+  every subject into one multi-page PDF.
+
+To edit the content itself, edit the `sections` arrays in
+src/data/revisionContent.ts directly — each subject is a `{ key, title,
+color, sections: [{ heading, bullets }] }` object.

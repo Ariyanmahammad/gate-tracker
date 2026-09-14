@@ -44,12 +44,12 @@ export default function ProgressModal({
   return (
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center bg-black/40 p-0 md:p-4">
       <div className="bg-white w-full md:max-w-xl md:rounded-2xl rounded-t-2xl max-h-[92vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-[#eee] px-5 py-4 flex items-start justify-between">
+        <div className="sticky top-0 bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-4 flex items-start justify-between rounded-t-2xl md:rounded-t-2xl">
           <div>
-            <div className="text-[11px] uppercase tracking-wide text-[#8a8677]">{task.session} · {task.subject}</div>
-            <div className="font-semibold text-[#1c2128]">{task.topic}</div>
+            <div className="text-[11px] uppercase tracking-wide text-indigo-100 font-bold">{task.session} · {task.subject}</div>
+            <div className="font-semibold text-white">{task.topic}</div>
           </div>
-          <button onClick={onClose} className="text-[#8a8677] hover:text-[#1c2128]"><X size={20} /></button>
+          <button onClick={onClose} className="text-white/80 hover:text-white"><X size={20} /></button>
         </div>
 
         <div className="p-5 space-y-5">
@@ -60,7 +60,7 @@ export default function ProgressModal({
                   key={s}
                   onClick={() => set('status', s)}
                   className={`px-3 py-1.5 rounded-lg text-sm border ${
-                    form.status === s ? 'bg-[#8a3324] text-white border-[#8a3324]' : 'border-[#ddd8ca] text-[#4a4638]'
+                    form.status === s ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white border-transparent shadow-md' : 'border-slate-200 text-slate-600'
                   }`}
                 >
                   {s === 'completed' ? 'Completed' : s === 'partial' ? 'Partially Completed' : s === 'skipped' ? 'Skipped' : 'In Progress'}
@@ -77,7 +77,7 @@ export default function ProgressModal({
                     key={pct}
                     onClick={() => set('completionPercentage', pct)}
                     className={`px-3 py-1.5 rounded-lg text-sm border ${
-                      form.completionPercentage === pct ? 'bg-[#8a3324] text-white border-[#8a3324]' : 'border-[#ddd8ca]'
+                      form.completionPercentage === pct ? 'bg-gradient-to-r from-amber-400 to-orange-500 text-white border-transparent shadow-md' : 'border-slate-200'
                     }`}
                   >
                     {pct}%
@@ -140,7 +140,7 @@ export default function ProgressModal({
           <Field label="Difficulty">
             <div className="flex gap-2">
               {(['easy', 'moderate', 'hard'] as const).map((d) => (
-                <button key={d} onClick={() => set('difficulty', d)} className={`px-3 py-1.5 rounded-lg text-sm border capitalize ${form.difficulty === d ? 'bg-[#8a3324] text-white border-[#8a3324]' : 'border-[#ddd8ca]'}`}>
+                <button key={d} onClick={() => set('difficulty', d)} className={`px-3 py-1.5 rounded-lg text-sm border capitalize ${form.difficulty === d ? 'bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white border-transparent shadow-md' : 'border-slate-200'}`}>
                   {d}
                 </button>
               ))}
@@ -152,8 +152,8 @@ export default function ProgressModal({
           </Field>
         </div>
 
-        <div className="sticky bottom-0 bg-white border-t border-[#eee] px-5 py-4">
-          <button onClick={submit} className="w-full bg-[#8a3324] text-white rounded-lg py-2.5 font-medium hover:bg-[#752a1d]">
+        <div className="sticky bottom-0 bg-white border-t border-slate-100 px-5 py-4">
+          <button onClick={submit} className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl py-2.5 font-semibold hover:from-indigo-700 hover:to-violet-700 shadow-lg shadow-indigo-200">
             Save Daily Progress
           </button>
         </div>
@@ -165,7 +165,7 @@ export default function ProgressModal({
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="text-sm font-medium text-[#1c2128] mb-1.5">{label}</div>
+      <div className="text-sm font-medium text-slate-800 mb-1.5">{label}</div>
       {children}
     </div>
   );
@@ -182,7 +182,7 @@ function NumberInput({ value, onChange, suffix, max }: { value: number; onChange
         max={max}
         onChange={(e) => onChange(Math.max(0, Number(e.target.value) || 0))}
       />
-      {suffix && <span className="text-sm text-[#8a8677]">{suffix}</span>}
+      {suffix && <span className="text-sm text-slate-400">{suffix}</span>}
     </div>
   );
 }
@@ -190,7 +190,7 @@ function NumberInput({ value, onChange, suffix, max }: { value: number; onChange
 function LabeledNumber({ label, value, onChange }: { label: string; value: number; onChange: (v: number) => void }) {
   return (
     <label className="block">
-      <div className="text-[11px] text-[#8a8677] mb-0.5">{label}</div>
+      <div className="text-[11px] text-slate-400 mb-0.5">{label}</div>
       <input
         type="number"
         className="input w-full"
@@ -205,8 +205,8 @@ function LabeledNumber({ label, value, onChange }: { label: string; value: numbe
 function ToggleYesNo({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
   return (
     <div className="flex gap-2">
-      <button onClick={() => onChange(true)} className={`px-3 py-1.5 rounded-lg text-sm border ${value ? 'bg-[#8a3324] text-white border-[#8a3324]' : 'border-[#ddd8ca]'}`}>Yes</button>
-      <button onClick={() => onChange(false)} className={`px-3 py-1.5 rounded-lg text-sm border ${!value ? 'bg-[#8a3324] text-white border-[#8a3324]' : 'border-[#ddd8ca]'}`}>No</button>
+      <button onClick={() => onChange(true)} className={`px-3 py-1.5 rounded-lg text-sm border ${value ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-transparent shadow-md' : 'border-slate-200'}`}>Yes</button>
+      <button onClick={() => onChange(false)} className={`px-3 py-1.5 rounded-lg text-sm border ${!value ? 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white border-transparent shadow-md' : 'border-slate-200'}`}>No</button>
     </div>
   );
 }

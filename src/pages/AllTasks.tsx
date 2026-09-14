@@ -38,41 +38,50 @@ export default function AllTasks() {
   }, [tasks, state, statusFilter, subjectFilter, sessionFilter, from, to, search]);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 space-y-4">
-      <h1 className="text-xl font-semibold text-[#1c2128]">All Tasks</h1>
+    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-indigo-50 to-cyan-50">
+      <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 space-y-4">
+        <div>
+          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-indigo-600">Planner</span>
+          <h1 className="bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-3xl font-bold text-transparent">All Tasks</h1>
+        </div>
 
-      <div className="flex flex-wrap gap-2">
-        {STATUS_FILTERS.map((f) => (
-          <button
-            key={f.value}
-            onClick={() => setStatusFilter(f.value)}
-            className={`text-xs px-3 py-1.5 rounded-full border ${statusFilter === f.value ? 'bg-[#8a3324] text-white border-[#8a3324]' : 'border-[#ddd8ca] bg-white'}`}
-          >
-            {f.label}
-          </button>
-        ))}
-      </div>
+        <div className="flex flex-wrap gap-2">
+          {STATUS_FILTERS.map((f) => (
+            <button
+              key={f.value}
+              onClick={() => setStatusFilter(f.value)}
+              className={`text-xs px-3.5 py-1.5 rounded-full font-semibold transition ${
+                statusFilter === f.value
+                  ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md'
+                  : 'bg-white text-slate-500 border border-slate-200'
+              }`}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-        <select className="input" value={subjectFilter} onChange={(e) => setSubjectFilter(e.target.value)}>
-          <option value="all">All subjects</option>
-          {subjects.map((s) => <option key={s} value={s}>{s}</option>)}
-        </select>
-        <select className="input" value={sessionFilter} onChange={(e) => setSessionFilter(e.target.value)}>
-          <option value="all">All sessions</option>
-          {sessions.map((s) => <option key={s} value={s}>{s}</option>)}
-        </select>
-        <input type="date" className="input" value={from} onChange={(e) => setFrom(e.target.value)} />
-        <input type="date" className="input" value={to} onChange={(e) => setTo(e.target.value)} />
-        <input className="input" placeholder="Search topic…" value={search} onChange={(e) => setSearch(e.target.value)} />
-      </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 bg-white/80 backdrop-blur-sm rounded-2xl p-3 shadow-md shadow-indigo-100/50">
+          <select className="input" value={subjectFilter} onChange={(e) => setSubjectFilter(e.target.value)}>
+            <option value="all">All subjects</option>
+            {subjects.map((s) => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <select className="input" value={sessionFilter} onChange={(e) => setSessionFilter(e.target.value)}>
+            <option value="all">All sessions</option>
+            {sessions.map((s) => <option key={s} value={s}>{s}</option>)}
+          </select>
+          <input type="date" className="input" value={from} onChange={(e) => setFrom(e.target.value)} />
+          <input type="date" className="input" value={to} onChange={(e) => setTo(e.target.value)} />
+          <input className="input" placeholder="Search topic…" value={search} onChange={(e) => setSearch(e.target.value)} />
+        </div>
 
-      <div className="text-xs text-[#8a8677]">{filtered.length} task{filtered.length !== 1 ? 's' : ''}</div>
+        <div className="text-xs text-indigo-500 font-semibold">{filtered.length} task{filtered.length !== 1 ? 's' : ''}</div>
 
-      <div className="space-y-2">
-        {filtered.slice(0, 300).map((t) => <TaskCard key={t.id} task={t} showDate />)}
-        {filtered.length > 300 && <div className="text-xs text-[#a39d8a] text-center py-2">Showing first 300 of {filtered.length} — narrow your filters to see more precisely.</div>}
-        {filtered.length === 0 && <div className="text-sm text-[#8a8677] text-center py-8">No tasks match these filters.</div>}
+        <div className="space-y-2">
+          {filtered.slice(0, 300).map((t) => <TaskCard key={t.id} task={t} showDate />)}
+          {filtered.length > 300 && <div className="text-xs text-slate-400 text-center py-2">Showing first 300 of {filtered.length} — narrow your filters to see more precisely.</div>}
+          {filtered.length === 0 && <div className="text-sm text-slate-400 text-center py-8">No tasks match these filters.</div>}
+        </div>
       </div>
     </div>
   );

@@ -34,14 +34,14 @@ export default function CalendarPage() {
 
   function colorFor(date: string) {
     const dayTasks = getTasksForDate(tasks, date);
-    if (dayTasks.length === 0) return 'bg-transparent text-[#c9c5b7]';
-    if (!isPastOrToday(date)) return 'bg-[#eef0f5] text-[#7c86a3]';
+    if (dayTasks.length === 0) return 'bg-transparent text-slate-300';
+    if (!isPastOrToday(date)) return 'bg-indigo-50 text-indigo-400';
     const submitted = dayTasks.some((t) => state.progress[t.id]);
-    if (!submitted) return 'bg-[#eeece3] text-[#8a8677]';
+    if (!submitted) return 'bg-slate-100 text-slate-400';
     const pct = dayCompletionPct(state, dayTasks);
-    if (pct >= 75) return 'bg-[#cfe8d8] text-[#215c39]';
-    if (pct >= 40) return 'bg-[#fbe6a8] text-[#7a5c00]';
-    return 'bg-[#f3c9c9] text-[#8a2f2f]';
+    if (pct >= 75) return 'bg-gradient-to-br from-emerald-400 to-teal-500 text-white shadow-sm';
+    if (pct >= 40) return 'bg-gradient-to-br from-amber-300 to-yellow-400 text-amber-900 shadow-sm';
+    return 'bg-gradient-to-br from-rose-400 to-red-500 text-white shadow-sm';
   }
 
   const selectedTasks = selected ? getTasksForDate(tasks, selected) : [];
@@ -50,87 +50,103 @@ export default function CalendarPage() {
   const selectedCorrect = selectedTasks.reduce((sum, t) => sum + (state.progress[t.id]?.pyqsCorrect || 0), 0);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 space-y-5">
-      <h1 className="text-xl font-semibold text-[#1c2128]">Calendar &amp; History</h1>
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 via-indigo-50 to-violet-100/60">
+      <div className="max-w-4xl mx-auto px-4 md:px-8 py-8 space-y-5">
+        <div>
+          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-indigo-600">History</span>
+          <h1 className="bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-3xl font-bold text-transparent">Calendar</h1>
+        </div>
 
-      <div className="flex items-center justify-between">
-        <button onClick={() => setMonthCursor(new Date(year, month - 1, 1))} className="px-2 py-1 rounded-lg border border-[#ddd8ca] text-sm">‹</button>
-        <div className="font-medium text-sm">{monthCursor.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</div>
-        <button onClick={() => setMonthCursor(new Date(year, month + 1, 1))} className="px-2 py-1 rounded-lg border border-[#ddd8ca] text-sm">›</button>
-      </div>
+        <div className="rounded-3xl bg-white/90 backdrop-blur-sm shadow-lg shadow-indigo-100/50 p-5">
+          <div className="flex items-center justify-between mb-4">
+            <button onClick={() => setMonthCursor(new Date(year, month - 1, 1))} className="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 text-sm font-bold hover:bg-indigo-100">‹</button>
+            <div className="font-bold text-slate-700">{monthCursor.toLocaleDateString(undefined, { month: 'long', year: 'numeric' })}</div>
+            <button onClick={() => setMonthCursor(new Date(year, month + 1, 1))} className="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-600 text-sm font-bold hover:bg-indigo-100">›</button>
+          </div>
 
-      <div className="grid grid-cols-7 gap-1.5 text-center">
-        {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
-          <div key={i} className="text-[11px] text-[#a39d8a] font-medium">{d}</div>
-        ))}
-        {cells.map((date, i) =>
-          date ? (
-            <button
-              key={i}
-              onClick={() => setSelected(date)}
-              className={`aspect-square rounded-lg text-xs font-medium flex items-center justify-center ${colorFor(date)} ${selected === date ? 'ring-2 ring-[#8a3324]' : ''}`}
-            >
-              {Number(date.split('-')[2])}
-            </button>
-          ) : (
-            <div key={i} />
-          )
+          <div className="grid grid-cols-7 gap-1.5 text-center">
+            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d, i) => (
+              <div key={i} className="text-[11px] text-slate-400 font-bold">{d}</div>
+            ))}
+            {cells.map((date, i) =>
+              date ? (
+                <button
+                  key={i}
+                  onClick={() => setSelected(date)}
+                  className={`aspect-square rounded-xl text-xs font-bold flex items-center justify-center transition hover:scale-105 ${colorFor(date)} ${selected === date ? 'ring-2 ring-indigo-500 ring-offset-1' : ''}`}
+                >
+                  {Number(date.split('-')[2])}
+                </button>
+              ) : (
+                <div key={i} />
+              )
+            )}
+          </div>
+
+          <div className="flex gap-3 text-[11px] text-slate-500 flex-wrap mt-4">
+            <Legend gradient="from-emerald-400 to-teal-500" label="Completed well" />
+            <Legend gradient="from-amber-300 to-yellow-400" label="Partial" />
+            <Legend gradient="from-rose-400 to-red-500" label="Poor / missed" />
+            <Legend gradient="bg-slate-200" label="Not yet attempted" plain />
+            <Legend gradient="bg-indigo-100" label="Upcoming" plain />
+          </div>
+        </div>
+
+        {selected && (
+          <div className="rounded-3xl bg-white/90 backdrop-blur-sm shadow-lg shadow-indigo-100/50 p-5 space-y-3">
+            <div className="font-bold text-slate-800">{selected}</div>
+            {selectedTasks.length === 0 ? (
+              <div className="text-sm text-slate-400">No planned tasks for this date.</div>
+            ) : (
+              <>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+                  <MiniStat label="Day completion" value={`${dayCompletionPct(state, selectedTasks)}%`} gradient="from-indigo-500 to-violet-600" />
+                  <MiniStat label="Study time" value={formatMinutes(selectedMinutes)} gradient="from-cyan-500 to-blue-600" />
+                  <MiniStat label="PYQs" value={`${selectedPyqs}`} gradient="from-emerald-500 to-teal-600" />
+                  <MiniStat label="Accuracy" value={`${selectedPyqs ? Math.round((selectedCorrect / selectedPyqs) * 100) : 0}%`} gradient="from-fuchsia-500 to-pink-600" />
+                </div>
+                <div className="space-y-2">
+                  {selectedTasks.map((t) => {
+                    const p = state.progress[t.id];
+                    const status = getTaskStatus(state, t.id);
+                    const pct = getCompletionPct(state, t.id);
+                    return (
+                      <div key={t.id} className="border border-slate-100 rounded-xl p-3 bg-white">
+                        <div className="flex justify-between items-start gap-2">
+                          <div>
+                            <div className="text-[11px] uppercase text-indigo-500 font-bold">{t.session} · {t.subject}</div>
+                            <div className="text-sm text-slate-700">{t.topic}</div>
+                          </div>
+                          <StatusBadge status={status} pct={pct} />
+                        </div>
+                        {p?.mistakes && <div className="text-xs text-rose-500 mt-2">Weak area: {p.mistakes}</div>}
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+          </div>
         )}
       </div>
-
-      <div className="flex gap-3 text-[11px] text-[#8a8677] flex-wrap">
-        <Legend color="bg-[#cfe8d8]" label="Completed well" />
-        <Legend color="bg-[#fbe6a8]" label="Partial" />
-        <Legend color="bg-[#f3c9c9]" label="Poor / missed" />
-        <Legend color="bg-[#eeece3]" label="Not yet attempted" />
-        <Legend color="bg-[#eef0f5]" label="Upcoming" />
-      </div>
-
-      {selected && (
-        <div className="rounded-xl border border-[#e4e1d8] bg-white p-4 space-y-3">
-          <div className="font-semibold text-[#1c2128]">{selected}</div>
-          {selectedTasks.length === 0 ? (
-            <div className="text-sm text-[#8a8677]">No planned tasks for this date.</div>
-          ) : (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-sm">
-                <div><div className="text-[11px] text-[#8a8677]">Day completion</div><div className="font-medium">{dayCompletionPct(state, selectedTasks)}%</div></div>
-                <div><div className="text-[11px] text-[#8a8677]">Study time</div><div className="font-medium">{formatMinutes(selectedMinutes)}</div></div>
-                <div><div className="text-[11px] text-[#8a8677]">PYQs</div><div className="font-medium">{selectedPyqs}</div></div>
-                <div><div className="text-[11px] text-[#8a8677]">Accuracy</div><div className="font-medium">{selectedPyqs ? Math.round((selectedCorrect / selectedPyqs) * 100) : 0}%</div></div>
-              </div>
-              <div className="space-y-2">
-                {selectedTasks.map((t) => {
-                  const p = state.progress[t.id];
-                  const status = getTaskStatus(state, t.id);
-                  const pct = getCompletionPct(state, t.id);
-                  return (
-                    <div key={t.id} className="border border-[#eee] rounded-lg p-3">
-                      <div className="flex justify-between items-start gap-2">
-                        <div>
-                          <div className="text-[11px] uppercase text-[#8a8677]">{t.session} · {t.subject}</div>
-                          <div className="text-sm">{t.topic}</div>
-                        </div>
-                        <StatusBadge status={status} pct={pct} />
-                      </div>
-                      {p?.mistakes && <div className="text-xs text-[#a13a3a] mt-2">Weak area: {p.mistakes}</div>}
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          )}
-        </div>
-      )}
     </div>
   );
 }
 
-function Legend({ color, label }: { color: string; label: string }) {
+function Legend({ gradient, label, plain }: { gradient: string; label: string; plain?: boolean }) {
   return (
     <div className="flex items-center gap-1.5">
-      <span className={`w-2.5 h-2.5 rounded-sm ${color}`} />
+      <span className={`w-3 h-3 rounded-md ${plain ? gradient : `bg-gradient-to-br ${gradient}`}`} />
       {label}
+    </div>
+  );
+}
+
+function MiniStat({ label, value, gradient }: { label: string; value: string; gradient: string }) {
+  return (
+    <div className={`rounded-xl bg-gradient-to-br ${gradient} p-3 text-white`}>
+      <div className="text-[10px] text-white/80 font-bold uppercase">{label}</div>
+      <div className="font-bold">{value}</div>
     </div>
   );
 }

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --color-ink: #1c2128;
-  --color-paper: #fbfaf7;
+  --color-ink: #1e293b;
+  --color-paper: #f5f3ff;
 }
 
 html, body, #root {
@@ -10,8 +10,8 @@ html, body, #root {
 }
 
 body {
-  background-color: #f6f5f1;
-  color: #1c2128;
+  background-color: #eef2ff;
+  color: #1e293b;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
@@ -24,19 +24,21 @@ body {
   height: 8px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #d3d0c7;
+  background: linear-gradient(180deg, #a5b4fc, #c4b5fd);
   border-radius: 4px;
 }
 
 .input {
-  border: 1px solid #ddd8ca;
-  border-radius: 0.5rem;
-  padding: 0.5rem 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 0.55rem 0.8rem;
   font-size: 0.875rem;
   outline: none;
   background: white;
-  color: #1c2128;
+  color: #1e293b;
+  transition: box-shadow 0.15s, border-color 0.15s;
 }
 .input:focus {
-  border-color: #8a3324;
+  border-color: #818cf8;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.25);
 }

@@ -10,6 +10,7 @@ import Tests from './pages/Tests';
 import ErrorLogPage from './pages/ErrorLog';
 import Analytics from './pages/Analytics';
 import EditSchedule from './pages/EditSchedule';
+import Revision from './pages/Revision';
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="tests" element={<Tests />} />
             <Route path="errors" element={<ErrorLogPage />} />
             <Route path="analytics" element={<Analytics />} />
+            <Route path="revision" element={<Revision />} />
             <Route path="schedule" element={<EditSchedule />} />
           </Route>
         </Routes>

@@ -85,6 +85,7 @@ export interface AppState {
   editsToSchedule: Record<string, Partial<PlannedTask>>; // user edits layered over seed data, keyed by taskId
   customTasks: PlannedTask[]; // tasks added by the user beyond the seed
   deletedTaskIds: string[]; // seed tasks the user deleted
+  revisionNotes: Record<string, string>; // user-added revision content, keyed by subject key
   dataVersion: number;
 }
 
@@ -95,6 +96,7 @@ export const EMPTY_STATE: AppState = {
   editsToSchedule: {},
   customTasks: [],
   deletedTaskIds: [],
+  revisionNotes: {},
   dataVersion: 1,
 };
 

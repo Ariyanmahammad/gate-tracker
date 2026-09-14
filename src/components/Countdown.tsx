@@ -10,12 +10,12 @@ export default function Countdown() {
   }, []);
 
   return (
-    <div className="rounded-xl border border-[#e4e1d8] bg-[#fbfaf7] px-5 py-4 flex items-center justify-between">
+    <div className="rounded-[18px] bg-white/95 px-5 py-4 flex items-center justify-between backdrop-blur-sm">
       <div>
-        <div className="text-xs uppercase tracking-wide text-[#8a8677] font-medium">GATE 2027</div>
-        <div className="text-sm text-[#4a4638] mt-0.5">7 February 2027</div>
+        <div className="text-xs uppercase tracking-wide text-indigo-500 font-bold">GATE 2027</div>
+        <div className="text-sm text-slate-600 mt-0.5">7 February 2027</div>
       </div>
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3 sm:gap-4">
         <TimeBlock value={t.days} label="days" />
         <TimeBlock value={t.hours} label="hrs" />
         <TimeBlock value={t.minutes} label="min" />
@@ -27,9 +27,11 @@ export default function Countdown() {
 
 function TimeBlock({ value, label }: { value: number; label: string }) {
   return (
-    <div className="text-center">
-      <div className="text-2xl font-semibold text-[#8a3324] tabular-nums">{value}</div>
-      <div className="text-[10px] uppercase text-[#a39d8a]">{label}</div>
+    <div className="text-center min-w-[42px]">
+      <div className="text-2xl font-bold bg-gradient-to-br from-indigo-600 to-fuchsia-600 bg-clip-text text-transparent tabular-nums">
+        {value}
+      </div>
+      <div className="text-[10px] uppercase text-slate-400 font-semibold">{label}</div>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useData } from '../context/DataContext';
 import { getTaskStatus, getCompletionPct } from '../utils/tasks';
 import StatusBadge from './StatusBadge';
 import ProgressModal from './ProgressModal';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, CheckCircle2, PencilLine } from 'lucide-react';
 
 export default function TaskCard({ task, showDate }: { task: PlannedTask; showDate?: boolean }) {
   const { state, saveProgress } = useData();
@@ -36,34 +36,34 @@ export default function TaskCard({ task, showDate }: { task: PlannedTask; showDa
   }
 
   return (
-    <div className="rounded-xl border border-[#e4e1d8] bg-white p-4">
+    <div className="rounded-2xl border border-white bg-white/90 backdrop-blur-sm p-4 shadow-md shadow-indigo-100/40 hover:shadow-lg transition">
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
-          <div className="text-[11px] uppercase tracking-wide text-[#8a8677] font-medium flex items-center gap-1.5">
+          <div className="text-[11px] uppercase tracking-wide text-indigo-500 font-bold flex items-center gap-1.5">
             {showDate ? `${task.date} · ${task.session}` : task.session} · {task.subject}
             {task.needsReview && (
               <span title={task.reviewNote}>
-                <AlertCircle size={12} className="text-[#b8862c]" />
+                <AlertCircle size={12} className="text-amber-500" />
               </span>
             )}
           </div>
-          <div className="text-sm text-[#1c2128] mt-1 leading-snug">{task.topic}</div>
-          {task.plannedTarget && <div className="text-[11px] text-[#a39d8a] mt-1">{task.plannedTarget}</div>}
+          <div className="text-sm text-slate-700 mt-1 leading-snug">{task.topic}</div>
+          {task.plannedTarget && <div className="text-[11px] text-slate-400 mt-1">{task.plannedTarget}</div>}
         </div>
         <StatusBadge status={status} pct={pct} />
       </div>
       <div className="flex gap-2 mt-3">
         <button
           onClick={quickComplete}
-          className="text-xs px-3 py-1.5 rounded-lg border border-[#ddd8ca] text-[#4a4638] hover:bg-[#f6f5f1]"
+          className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg border border-emerald-200 text-emerald-600 font-semibold hover:bg-emerald-50"
         >
-          Mark Complete
+          <CheckCircle2 size={13} /> Mark Complete
         </button>
         <button
           onClick={() => setModalOpen(true)}
-          className="text-xs px-3 py-1.5 rounded-lg bg-[#8a3324] text-white hover:bg-[#752a1d]"
+          className="flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-semibold hover:from-indigo-700 hover:to-violet-700 shadow-sm"
         >
-          Submit Progress
+          <PencilLine size={13} /> Submit Progress
         </button>
       </div>
       {modalOpen && <ProgressModal task={task} onClose={() => setModalOpen(false)} />}

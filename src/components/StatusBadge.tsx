@@ -1,11 +1,11 @@
 import type { TaskStatus } from '../types';
 
 const STYLES: Record<TaskStatus, string> = {
-  not_started: 'bg-[#eeece3] text-[#8a8677]',
-  in_progress: 'bg-[#fdedd3] text-[#946200]',
-  completed: 'bg-[#dcece1] text-[#296b45]',
-  partial: 'bg-[#fdf1c9] text-[#8a6a00]',
-  skipped: 'bg-[#f6dede] text-[#a13a3a]',
+  not_started: 'bg-slate-100 text-slate-500',
+  in_progress: 'bg-gradient-to-r from-amber-400 to-orange-400 text-white',
+  completed: 'bg-gradient-to-r from-emerald-400 to-teal-500 text-white',
+  partial: 'bg-gradient-to-r from-amber-300 to-yellow-400 text-amber-900',
+  skipped: 'bg-gradient-to-r from-rose-400 to-red-500 text-white',
 };
 
 const LABELS: Record<TaskStatus, string> = {
@@ -19,7 +19,7 @@ const LABELS: Record<TaskStatus, string> = {
 export default function StatusBadge({ status, pct }: { status: TaskStatus; pct?: number }) {
   const label = status === 'partial' && pct ? `Partial ${pct}%` : LABELS[status];
   return (
-    <span className={`inline-block text-[11px] font-medium px-2 py-0.5 rounded-full ${STYLES[status]}`}>
+    <span className={`inline-block text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm ${STYLES[status]}`}>
       {label}
     </span>
   );

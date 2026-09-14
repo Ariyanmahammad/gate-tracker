@@ -5,10 +5,9 @@ import {
   longestStreak, missedTasks, dayCompletionPct, formatMinutes, relevantTasks,
 } from '../utils/stats';
 import { subjectStats } from '../utils/stats';
-import StatCard from '../components/StatCard';
-import {
-  ResponsiveContainer, BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid,
-} from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+
+const COLORS = ['#6366f1', '#8b5cf6', '#d946ef', '#06b6d4', '#10b981', '#f59e0b', '#f43f5e'];
 
 export default function Analytics() {
   const { state, tasks } = useData();
@@ -44,61 +43,80 @@ export default function Analytics() {
   }, [tasks, state]);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 md:px-8 py-6 space-y-5">
-      <h1 className="text-xl font-semibold text-[#1c2128]">Analytics</h1>
+    <div className="min-h-screen bg-gradient-to-br from-fuchsia-50 via-indigo-50 to-cyan-50">
+      <div className="max-w-6xl mx-auto px-4 md:px-8 py-8 space-y-6">
+        <div>
+          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-indigo-600">Insights</span>
+          <h1 className="bg-gradient-to-r from-indigo-700 via-violet-700 to-fuchsia-600 bg-clip-text text-3xl font-bold text-transparent">Analytics</h1>
+        </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatCard label="Overall completion" value={`${overall}%`} />
-        <StatCard label="Study hours logged" value={formatMinutes(minutes)} />
-        <StatCard label="PYQ accuracy" value={`${pyqs.accuracy}%`} />
-        <StatCard label="Test average" value={tests.count ? `${tests.average}%` : '—'} />
-        <StatCard label="Current streak" value={`${streak}d`} />
-        <StatCard label="Longest streak" value={`${longest}d`} />
-        <StatCard label="Missed tasks" value={missed.length} />
-        <StatCard label="Partially completed" value={partialCount} />
-      </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <GlassStat label="Overall completion" value={`${overall}%`} gradient="from-indigo-500 to-violet-600" />
+          <GlassStat label="Study hours logged" value={formatMinutes(minutes)} gradient="from-cyan-500 to-blue-600" />
+          <GlassStat label="PYQ accuracy" value={`${pyqs.accuracy}%`} gradient="from-emerald-500 to-teal-600" />
+          <GlassStat label="Test average" value={tests.count ? `${tests.average}%` : '—'} gradient="from-fuchsia-500 to-pink-600" />
+          <GlassStat label="Current streak" value={`${streak}d`} gradient="from-orange-500 to-amber-600" />
+          <GlassStat label="Longest good-day streak" value={`${longest}d`} gradient="from-rose-500 to-red-600" />
+          <GlassStat label="Missed tasks" value={`${missed.length}`} gradient="from-slate-500 to-slate-700" />
+          <GlassStat label="Partially completed" value={`${partialCount}`} gradient="from-violet-500 to-purple-700" />
+        </div>
 
-      {dailyCompletion.length > 1 && (
-        <ChartCard title="Daily completion %">
-          <LineChart data={dailyCompletion}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-            <XAxis dataKey="date" tick={{ fontSize: 9 }} hide={dailyCompletion.length > 25} />
-            <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Line type="monotone" dataKey="pct" stroke="#8a3324" strokeWidth={2} dot={false} />
-          </LineChart>
-        </ChartCard>
-      )}
+        {dailyCompletion.length > 1 && (
+          <ChartCard title="Daily completion %" accent="from-indigo-500 to-violet-600">
+            <LineChart data={dailyCompletion}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#eef2ff" />
+              <XAxis dataKey="date" tick={{ fontSize: 9 }} hide={dailyCompletion.length > 25} />
+              <YAxis domain={[0, 100]} tick={{ fontSize: 11 }} />
+              <Tooltip contentStyle={{ borderRadius: 12, border: '1px solid #e0e7ff' }} />
+              <Line type="monotone" dataKey="pct" stroke="#8b5cf6" strokeWidth={3} dot={false} />
+            </LineChart>
+          </ChartCard>
+        )}
 
-      {studyHoursPerDay.length > 1 && (
-        <ChartCard title="Study hours per day">
-          <BarChart data={studyHoursPerDay}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-            <XAxis dataKey="date" tick={{ fontSize: 9 }} hide={studyHoursPerDay.length > 25} />
-            <YAxis tick={{ fontSize: 11 }} />
-            <Tooltip />
-            <Bar dataKey="hours" fill="#8a3324" radius={[3, 3, 0, 0]} />
+        {studyHoursPerDay.length > 1 && (
+          <ChartCard title="Study hours per day" accent="from-cyan-500 to-blue-600">
+            <BarChart data={studyHoursPerDay}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#ecfeff" />
+              <XAxis dataKey="date" tick={{ fontSize: 9 }} hide={studyHoursPerDay.length > 25} />
+              <YAxis tick={{ fontSize: 11 }} />
+              <Tooltip contentStyle={{ borderRadius: 12, border: '1px solid #cffafe' }} />
+              <Bar dataKey="hours" fill="#06b6d4" radius={[6, 6, 0, 0]} />
+            </BarChart>
+          </ChartCard>
+        )}
+
+        <ChartCard title="Subject-wise progress" accent="from-fuchsia-500 to-pink-600">
+          <BarChart data={subjects} layout="vertical" margin={{ left: 20 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#fdf4ff" />
+            <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11 }} />
+            <YAxis type="category" dataKey="subject" tick={{ fontSize: 10 }} width={90} />
+            <Tooltip contentStyle={{ borderRadius: 12, border: '1px solid #fae8ff' }} />
+            <Bar dataKey="completionPct" radius={[0, 6, 6, 0]}>
+              {subjects.map((_, i) => <Bar key={i} fill={COLORS[i % COLORS.length]} dataKey="completionPct" />)}
+            </Bar>
           </BarChart>
         </ChartCard>
-      )}
-
-      <ChartCard title="Subject-wise progress">
-        <BarChart data={subjects} layout="vertical" margin={{ left: 20 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#eee" />
-          <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 11 }} />
-          <YAxis type="category" dataKey="subject" tick={{ fontSize: 10 }} width={90} />
-          <Tooltip />
-          <Bar dataKey="completionPct" fill="#8a3324" radius={[0, 3, 3, 0]} />
-        </BarChart>
-      </ChartCard>
+      </div>
     </div>
   );
 }
 
-function ChartCard({ title, children }: { title: string; children: React.ReactElement }) {
+function GlassStat({ label, value, gradient }: { label: string; value: string; gradient: string }) {
   return (
-    <div className="rounded-xl border border-[#e4e1d8] bg-white p-4">
-      <div className="text-sm font-medium mb-3">{title}</div>
+    <div className={`rounded-2xl bg-gradient-to-br ${gradient} p-4 text-white shadow-lg shadow-indigo-100 transition hover:-translate-y-1`}>
+      <div className="text-[10px] uppercase tracking-wide font-bold text-white/80">{label}</div>
+      <div className="text-xl font-bold mt-1">{value}</div>
+    </div>
+  );
+}
+
+function ChartCard({ title, children, accent }: { title: string; children: React.ReactElement; accent: string }) {
+  return (
+    <div className="rounded-3xl border border-white bg-white/80 backdrop-blur-sm p-5 shadow-lg shadow-indigo-100/50">
+      <div className="flex items-center gap-2 mb-3">
+        <span className={`h-2.5 w-2.5 rounded-full bg-gradient-to-r ${accent}`} />
+        <div className="text-sm font-bold text-slate-700">{title}</div>
+      </div>
       <ResponsiveContainer width="100%" height={240}>
         {children}
       </ResponsiveContainer>
